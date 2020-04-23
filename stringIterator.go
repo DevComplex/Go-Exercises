@@ -12,11 +12,6 @@ type StringIterator struct {
 	NextLetterIndex  int
 }
 
-func byteToInt(b byte) int {
-	num, _ := strconv.Atoi(string(b))
-	return num
-}
-
 func getLetterCountAndNextIndex(start int, compressedString string) (int, int) {
 	letterCount := 0
 	i := start
