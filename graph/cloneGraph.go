@@ -12,6 +12,10 @@ func initNode(val int) *Node {
 }
 
 func cloneGraph(node *Node) *Node {
+	if node == nil {
+		return nil
+	}
+
 	graph := make(map[int]*Node)
 	graph[node.Val] = initNode(node.Val)
 
@@ -24,23 +28,19 @@ func cloneGraph(node *Node) *Node {
 		next := queue[0]
 		queue = queue[1:]
 
-		parentClone := graph[node.Val]
+		parentClone := graph[next.Val]
 
-		for _, node := range next.Neighbors {
-			nodeClone := graph[node.Val]
-
-			if nodeClone == nil {
-				graph[node.Val] = initNode(node.Val)
+		for _, neighbor := range next.Neighbors {
+			if graph[neighbor.Val] == nil {
+				graph[neighbor.Val] = initNode(neighbor.Val)
 			}
 
-			nodeClone = graph[node.Val]
-			parentClone.Neighbors = append(parentClone.Neighbors, nodeClone)
+			neighborClone := graph[neighbor.Val]
+			parentClone.Neighbors = append(parentClone.Neighbors, neighborClone)
 			
-			wasVisited := visited[node.Val]
-
-			if !wasVisited {
-				visited[node.Val] = true
-				queue = append(queue, node)
+			if !visited[neighbor.Val] {
+				visited[neighbor.Val] = true
+				queue = append(queue, neighbor)
 			}
 		}
 	}
